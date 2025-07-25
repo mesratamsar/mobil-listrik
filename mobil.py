@@ -7,21 +7,20 @@ import matplotlib.pyplot as plt
 # =========================
 st.set_page_config(page_title="Dashboard Analisis Mobil Listrik", page_icon="🚗", layout="wide")
 
-
-
-
 # =========================
-# LOAD DATA
+# UPLOAD DATA
 # =========================
-@st.cache_data
-def load_data():
-    df = pd.read_excel("mobil_listrik_mobil123_multi_brand_fiks_new.xlsx", sheet_name="Sheet1")
+st.sidebar.header("Upload File Data Mobil Listrik")
+uploaded_file = st.sidebar.file_uploader("Upload file Excel", type=["xlsx"])
+
+if uploaded_file is not None:
+    df = pd.read_excel(uploaded_file, sheet_name="Sheet1")
     # Normalisasi kondisi
     df['Kondisi'] = df['Kondisi'].apply(lambda x: 'Baru' if 'new' in x.lower() or 'baru' in x.lower() else 'Bekas')
     df['Brand_Model'] = df['Brand'].astype(str).str.strip() + " " + df['Model'].astype(str).str.strip()
-    return df
-
-df = load_data()
+else:
+    st.warning("Silakan upload file Excel mobil listrik terlebih dahulu.")
+    st.stop()
 
 # =========================
 # SIDEBAR FILTERS
@@ -46,7 +45,7 @@ filtered_df = df[(df['Brand'].isin(selected_brand)) &
 # =========================
 # DASHBOARD LAYOUT
 # =========================
-st.title("\ud83d\ude97 Dashboard Analisis Mobil Listrik Indonesia")
+st.title("🚗 Dashboard Analisis Mobil Listrik Indonesia")
 st.markdown("### Data dari Mobil123")
 
 # ---- METRICS ----
@@ -111,9 +110,4 @@ ax4.boxplot(data_box, labels=["Baru", "Bekas"], showfliers=False)
 ax4.set_ylabel('Harga (IDR)')
 st.pyplot(fig4)
 
-# =========================
-# TABEL DETAIL DATA
-# =========================
-st.subheader("Data Listing")
-st.dataframe(filtered_df)
-
+# ==============
