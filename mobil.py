@@ -5,7 +5,10 @@ import matplotlib.pyplot as plt
 # =========================
 # CONFIG
 # =========================
-st.set_page_config(page_title="Dashboard Analisis Mobil Listrik", page_icon="\ud83d\ude97", layout="wide")
+st.set_page_config(page_title="Dashboard Analisis Mobil Listrik", page_icon="🚗", layout="wide")
+
+
+
 
 # =========================
 # LOAD DATA
